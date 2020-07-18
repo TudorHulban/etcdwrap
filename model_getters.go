@@ -1,10 +1,7 @@
 package etcdwrap
 
 import (
-	"errors"
-
-	"github.com/TudorHulban/loginfo"
-	"go.etcd.io/etcd/clientv3"
+	"context"
 )
 
 // GetVByK fetches value from store based on passed key.

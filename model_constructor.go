@@ -31,3 +31,8 @@ func NewETCDClient(endpoints []string, extLogger loginfo.LogInfo) (ETCDStore, er
 		TheStore:  etcdClient,
 	}, nil
 }
+
+// Close closes the store.
+func (s ETCDStore) Close() error {
+	return s.TheStore.Close()
+}
