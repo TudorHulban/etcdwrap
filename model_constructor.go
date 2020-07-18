@@ -24,7 +24,6 @@ func NewETCDClient(endpoints []string, extLogger loginfo.LogInfo) (ETCDStore, er
 	if errClient != nil {
 		return nilStore, errClient
 	}
-	defer etcdClient.Close()
 
 	return ETCDStore{
 		theLogger: extLogger,
