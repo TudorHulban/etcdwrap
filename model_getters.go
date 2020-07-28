@@ -6,6 +6,18 @@ import (
 
 // GetVByK fetches value from store based on passed key.
 func (s ETCDStore) GetVByK(ctx context.Context, theK string) (string, error) {
-	result, errGet := s.TheStore.Get(ctx, theK)
-	return string(result.Kvs[0].Value), errGet
+	resp, errGet := s.TheStore.Get(ctx, theK)
+	return string(resp.Kvs[0].Value), errGet
+}
+
+// GetKVByKPrefix Method fetches KVs per passed prefix.
+func (s ETCDStore) GetKVByKPrefix(ctx context.Context, thePrefix string) ([]KV, error) {
+	resp, errGet := s.TheStore.Get(ctx, thePrefix)
+	result := make([]KV, len(resp.Kvs))
+
+	for i, v := range resp.Kvs {
+		result[i].key = string(v.Key)
+		result[i].value = string(v.Value)
+	}
+	return result, errGet
 }

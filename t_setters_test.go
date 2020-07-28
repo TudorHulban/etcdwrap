@@ -8,11 +8,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const etcdURL = "127.0.0.1:2379"
-const testKey = "the key"
-const testValue1 = "the value1"
-const testValue2 = "the value2"
-
 // Target of test:
 // a. insert
 // b. update
