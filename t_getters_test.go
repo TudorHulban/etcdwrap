@@ -10,6 +10,8 @@ import (
 
 // Target of test:
 // a. insert with prefix works
+//
+// c. delete keys by prefix
 func TestSimpleGet(t *testing.T) {
 	l, errLog := loginfo.New(2)
 	assert.Nil(t, errLog)
@@ -21,6 +23,10 @@ func TestSimpleGet(t *testing.T) {
 	defer func() {
 		assert.Nil(t, storeClient.TheStore.Close())
 	}()
+
+	// delete previous data
+	assert.Nil(t, storeClient.DeleteKVByK(context.Background(), "xxx|the key"))
+	assert.Nil(t, storeClient.DeleteKVByPrefix(context.Background(), testKeyPrefix))
 
 	// a.
 	assert.Nil(t, storeClient.SetWPrefixKV(context.Background(), testKeyPrefix, KV{
