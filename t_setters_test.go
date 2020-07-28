@@ -64,4 +64,7 @@ func TestSet(t *testing.T) {
 	val3, errGet3 := reconClient.GetVByK(context.Background(), testKey)
 	assert.Nil(t, errGet3)
 	assert.Equal(t, testValue2, val3)
+
+	// delete key
+	errDel3 := reconClient.DeleteKVByK()
 }
