@@ -38,6 +38,7 @@ d. get string / string key value<br/>
 
 ## Resources
 ```
+https://github.com/etcd-io/etcd/tree/master/etcdctl
 https://godoc.org/github.com/coreos/etcd/clientv3
 https://www.compose.com/articles/utilizing-etcd3-with-go/
 ```
