@@ -2,6 +2,9 @@ package etcdwrap
 
 import (
 	"context"
+	"log"
+
+	"go.etcd.io/etcd/clientv3"
 )
 
 // GetVByK fetches value from store based on passed key.
@@ -11,13 +14,15 @@ func (s ETCDStore) GetVByK(ctx context.Context, theK string) (string, error) {
 }
 
 // GetKVByKPrefix Method fetches KVs per passed prefix.
-func (s ETCDStore) GetKVByKPrefix(ctx context.Context, thePrefix string) ([]KV, error) {
-	resp, errGet := s.TheStore.Get(ctx, thePrefix)
+func (s ETCDStore) GetKVByKPrefix(ctx context.Context, theKey string) ([]KV, error) {
+	resp, errGet := s.TheStore.Get(ctx, theKey, clientv3.WithPrefix())
 	result := make([]KV, len(resp.Kvs))
 
 	for i, v := range resp.Kvs {
 		result[i].key = string(v.Key)
 		result[i].value = string(v.Value)
 	}
+
+	log.Println("result:", result)
 	return result, errGet
 }

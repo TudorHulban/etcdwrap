@@ -23,6 +23,7 @@ d. get string / string key value<br/>
 
 ## Resources
 ```
+https://godoc.org/github.com/coreos/etcd/clientv3
 https://www.compose.com/articles/utilizing-etcd3-with-go/
 ```
 

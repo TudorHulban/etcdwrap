@@ -35,5 +35,5 @@ func TestSimpleGet(t *testing.T) {
 	// b.
 	sliceKV, errGetByPrefix := storeClient.GetKVByKPrefix(context.Background(), testKeyPrefix)
 	assert.Nil(t, errGetByPrefix)
-	assert.Equal(t, 2, len(sliceKV))
+	assert.Equal(t, 0, len(sliceKV))
 }
