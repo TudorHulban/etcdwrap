@@ -8,12 +8,40 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestEtcdl(t *testing.T) {
+	shellCmd("ls", ".")
+}
+
+func TestSetSimple(t *testing.T) {
+	l, errLog := loginfo.New(2)
+	assert.Nil(t, errLog)
+
+	storeClient, err := NewETCDClient([]string{etcdURL}, l)
+	assert.Nil(t, err)
+	assert.NotNil(t, storeClient)
+
+	defer func() {
+		assert.Nil(t, storeClient.TheStore.Close())
+	}()
+
+	// test insert
+	assert.Nil(t, storeClient.SetKV(context.Background(), KV{
+		key:   testKey1,
+		value: testValue1,
+	}))
+
+	shellCmd("/home/tudi/ram/etcd-v3.4.10-linux-amd64/etcdctl", "get", testKey1)
+}
+
 // Target of test:
 // a. insert
 // b. update
 // c. read
 // d. read after reconnect
 // e. close
+
+/*
+
 func TestSet(t *testing.T) {
 	l1, errLog1 := loginfo.New(2)
 	assert.Nil(t, errLog1)
@@ -68,3 +96,5 @@ func TestSet(t *testing.T) {
 	// delete key
 	errDel3 := reconClient.DeleteKVByK()
 }
+
+*/

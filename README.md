@@ -13,9 +13,10 @@ go get go.etcd.io/etcd/clientv3
 
 ## Operations
 ### Cluster management
-Version for Endpoint
+Version 
 ```
-curl -L http://127.0.0.1:2379/version
+./etcdctl version
+curl -L http://127.0.0.1:2379/version  # for Endpoint
 
 ```
 
@@ -56,7 +57,7 @@ d. get string / string key value<br/>
 
 ## Resources
 ```
-https://etcd.io/docs/v2/api/
+https://etcd.io/docs/v2/api/   # v2!!
 https://github.com/etcd-io/etcd/tree/master/etcdctl
 https://godoc.org/github.com/coreos/etcd/clientv3
 https://www.compose.com/articles/utilizing-etcd3-with-go/
