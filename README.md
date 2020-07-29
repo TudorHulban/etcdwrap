@@ -11,9 +11,22 @@ https://github.com/TudorHulban/Deploy2020/blob/master/16_KVStores/01_etcd.md
 go get go.etcd.io/etcd/clientv3
 ```
 
-## CLI Operations
+## Operations
+### Cluster management
+Version for Endpoint
 ```
-./etcdctl put key1 value1  # retrieved w ./etcdctl get key1
+curl -L http://127.0.0.1:2379/version
+
+```
+
+Members List
+```
+./etcdctl --write-out=table --endpoints=localhost:2379 member list
+```
+
+### Key management
+```
+./etcdctl put key1 value1  # retrieved w ./etcdctl get key1 or curl http://127.0.0.1:2379/v2/keys/key1
 ./etcdctl put key2 value2  # retrieved w ./etcdctl get key2
 ./etcdctl put key3 value3 
 ./etcdctl put key4 value4 
@@ -25,6 +38,11 @@ go get go.etcd.io/etcd/clientv3
 
 ./etcdctl del k3             # check w ./etcdctl get k3
 ```
+### Monitoring
+```
+https://etcd.io/docs/v3.4.0/op-guide/monitoring/
+```
+
 
 ## Methods Exposed
 The original implementation of etcd client is exposed. Besides this:<br/>
@@ -38,6 +56,7 @@ d. get string / string key value<br/>
 
 ## Resources
 ```
+https://etcd.io/docs/v2/api/
 https://github.com/etcd-io/etcd/tree/master/etcdctl
 https://godoc.org/github.com/coreos/etcd/clientv3
 https://www.compose.com/articles/utilizing-etcd3-with-go/
