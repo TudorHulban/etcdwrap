@@ -7,6 +7,6 @@ import (
 
 // ETCDStore Concentrates information defining a KV store.
 type ETCDStore struct {
-	theLogger loginfo.LogInfo // logger needed only for package logging
+	theLogger loginfo.LogInfo // easy package logging
 	TheStore  *clientv3.Client
 }
