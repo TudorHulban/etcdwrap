@@ -19,3 +19,10 @@ func (s ETCDStore) DeleteKVByPrefix(ctx context.Context, thePrefix string) error
 	s.theLogger.Debug("Delete KVs by prefix Response: ", *resp)
 	return errDelete
 }
+
+// DeleteKVFrom deletes KV by key.
+func (s ETCDStore) DeleteKVFrom(ctx context.Context, fromKey string) error {
+	resp, errDelete := s.TheStore.Delete(ctx, fromKey, clientv3.WithFromKey())
+	s.theLogger.Debug("Delete All Keys: ", *resp)
+	return errDelete
+}

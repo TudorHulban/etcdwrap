@@ -30,7 +30,16 @@ func TestSetSimple(t *testing.T) {
 		value: testValue1,
 	}))
 
-	shellCmd("/home/tudi/ram/etcd-v3.4.10-linux-amd64/etcdctl", "get", testKey1)
+	// test read key
+	val1, errGet1 := storeClient.GetVByK(context.Background(), testKey1)
+	assert.Nil(t, errGet1)
+	assert.Equal(t, testValue1, val1)
+
+	assert.Nil(t, storeClient.DeleteKVFrom(context.Background(), testKey1))
+
+	// test read key
+	_, errGet2 := storeClient.GetVByK(context.Background(), testKey1)
+	assert.Error(t, errGet2)
 }
 
 // Target of test:
