@@ -41,19 +41,13 @@ func TestMultiple(t *testing.T) {
 	assert.Nil(t, errGetByPrefix)
 	assert.Equal(t, 2, len(sliceKV1))
 
-	// c.
-	sliceKV2, errGetByRange1 := storeClient.GetKVByKRangeFrom(context.Background(), testKeyPrefix+testKey1)
-	assert.Nil(t, errGetByRange1)
-	assert.Equal(t, 2, len(sliceKV2))
-
 	// d.
 	assert.Nil(t, storeClient.DeleteKVByPrefix(context.Background(), testKeyPrefix))
 
-	sliceKV3, errGetByRange2 := storeClient.GetKVByKRangeFrom(context.Background(), testKeyPrefix+testKey1)
-	assert.Error(t, errGetByRange2)
-	assert.Equal(t, 0, len(sliceKV3))
+	sliceKV2, errGetByRange1 := storeClient.GetKVByKRangeFrom(context.Background(), testKeyPrefix+testKey1)
+	assert.Error(t, errGetByRange1)
+	assert.Equal(t, 0, len(sliceKV2))
 
-	// e.
 	assert.Nil(t, storeClient.SetWPrefixKV(context.Background(), testKeyPrefix, KV{
 		key:   testKey1,
 		value: testValue1,
@@ -62,4 +56,16 @@ func TestMultiple(t *testing.T) {
 		key:   testKey2,
 		value: testValue2,
 	}))
+
+	// c.
+	sliceKV3, errGetByRange2 := storeClient.GetKVByKRangeFrom(context.Background(), testKeyPrefix+testKey1)
+	assert.Nil(t, errGetByRange2)
+	assert.Equal(t, 2, len(sliceKV3))
+
+	// e.
+	assert.Nil(t, storeClient.DeleteKVFrom(context.Background(), testKeyPrefix+testKey1))
+
+	sliceKV4, errGetByRange3 := storeClient.GetKVByKRangeFrom(context.Background(), testKeyPrefix+testKey1)
+	assert.Error(t, errGetByRange3)
+	assert.Equal(t, 0, len(sliceKV4))
 }
