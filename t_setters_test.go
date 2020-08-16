@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestEtcdl(t *testing.T) {
+func TestCMD(t *testing.T) {
 	shellCmd("ls", ".")
 }
 
@@ -48,10 +48,7 @@ func TestSetSimple(t *testing.T) {
 // c. read
 // d. read after reconnect
 // e. close
-
-/*
-
-func TestSet(t *testing.T) {
+func TestReconn(t *testing.T) {
 	l1, errLog1 := loginfo.New(2)
 	assert.Nil(t, errLog1)
 
@@ -65,23 +62,23 @@ func TestSet(t *testing.T) {
 
 	// test set - a.
 	assert.Nil(t, storeClient.SetKV(context.Background(), KV{
-		key:   testKey,
+		key:   testKey1,
 		value: testValue1,
 	}))
 
 	// test read key - c.
-	val1, errGet1 := storeClient.GetVByK(context.Background(), testKey)
+	val1, errGet1 := storeClient.GetVByK(context.Background(), testKey1)
 	assert.Nil(t, errGet1)
 	assert.Equal(t, testValue1, val1)
 
 	// test update - b.
 	assert.Nil(t, storeClient.SetKV(context.Background(), KV{
-		key:   testKey,
+		key:   testKey1,
 		value: testValue2,
 	}))
 
 	// test read key
-	val2, errGet2 := storeClient.GetVByK(context.Background(), testKey)
+	val2, errGet2 := storeClient.GetVByK(context.Background(), testKey1)
 	assert.Nil(t, errGet2)
 	assert.Equal(t, testValue2, val2)
 
@@ -98,12 +95,10 @@ func TestSet(t *testing.T) {
 	defer reconClient.Close()
 
 	// test read key - d.
-	val3, errGet3 := reconClient.GetVByK(context.Background(), testKey)
+	val3, errGet3 := reconClient.GetVByK(context.Background(), testKey1)
 	assert.Nil(t, errGet3)
 	assert.Equal(t, testValue2, val3)
 
 	// delete key
-	errDel3 := reconClient.DeleteKVByK()
+	assert.Nil(t, reconClient.DeleteKVByK(context.Background(), testKey1))
 }
-
-*/

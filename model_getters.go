@@ -40,7 +40,7 @@ func (s ETCDStore) GetKVByKPrefix(ctx context.Context, thePrefix string) ([]KV, 
 }
 
 // GetKVByKRangeFrom Method fetches KVs per passed range.
-func (s ETCDStore) GetKVByKRangeFrom(ctx context.Context, rangeFrom, rangeTo string) ([]KV, error) {
+func (s ETCDStore) GetKVByKRangeFrom(ctx context.Context, rangeFrom string) ([]KV, error) {
 	resp, errGet := s.TheStore.Get(ctx, rangeFrom, clientv3.WithFromKey())
 	if errGet != nil {
 		return []KV{}, errors.WithMessage(errGet, errorClientSide)
@@ -55,6 +55,6 @@ func (s ETCDStore) GetKVByKRangeFrom(ctx context.Context, rangeFrom, rangeTo str
 		result[i].value = string(v.Value)
 	}
 
-	s.theLogger.Debug("GetKVByKPrefix Result: ", result)
+	s.theLogger.Debug("GetKVByKRange Result: ", result)
 	return result, errGet
 }
