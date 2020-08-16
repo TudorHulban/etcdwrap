@@ -2,8 +2,8 @@ package etcdwrap
 
 import (
 	"context"
-	"errors"
 
+	"github.com/pkg/errors"
 	"go.etcd.io/etcd/clientv3"
 )
 
@@ -11,10 +11,10 @@ import (
 func (s ETCDStore) GetVByK(ctx context.Context, theK string) (string, error) {
 	resp, errGet := s.TheStore.Get(ctx, theK)
 	if errGet != nil {
-		return "", errGet
+		return "", errors.WithMessage(errGet, errorClientSide)
 	}
 	if resp.Kvs == nil {
-		return "", errors.New("no values found")
+		return "", errorNoValues
 	}
 	return string(resp.Kvs[0].Value), errGet
 }
@@ -22,7 +22,12 @@ func (s ETCDStore) GetVByK(ctx context.Context, theK string) (string, error) {
 // GetKVByKPrefix Method fetches KVs per passed prefix.
 func (s ETCDStore) GetKVByKPrefix(ctx context.Context, thePrefix string) ([]KV, error) {
 	resp, errGet := s.TheStore.Get(ctx, thePrefix, clientv3.WithPrefix())
-	s.theLogger.Debug("Get KV by prefix Response: ", *resp)
+	if errGet != nil {
+		return []KV{}, errors.WithMessage(errGet, errorClientSide)
+	}
+	if resp.Kvs == nil {
+		return []KV{}, errorNoValues
+	}
 
 	result := make([]KV, len(resp.Kvs))
 	for i, v := range resp.Kvs {
@@ -31,13 +36,18 @@ func (s ETCDStore) GetKVByKPrefix(ctx context.Context, thePrefix string) ([]KV, 
 	}
 
 	s.theLogger.Debug("GetKVByKPrefix Result: ", result)
-	return result, errGet
+	return result, nil
 }
 
 // GetKVByKRangeFrom Method fetches KVs per passed range.
 func (s ETCDStore) GetKVByKRangeFrom(ctx context.Context, rangeFrom, rangeTo string) ([]KV, error) {
 	resp, errGet := s.TheStore.Get(ctx, rangeFrom, clientv3.WithFromKey())
-	s.theLogger.Debug("Get KV by prefix Response: ", *resp)
+	if errGet != nil {
+		return []KV{}, errors.WithMessage(errGet, errorClientSide)
+	}
+	if resp.Kvs == nil {
+		return []KV{}, errorNoValues
+	}
 
 	result := make([]KV, len(resp.Kvs))
 	for i, v := range resp.Kvs {
