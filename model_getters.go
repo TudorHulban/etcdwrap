@@ -25,6 +25,19 @@ func (s ETCDStore) GetVByK(ctx context.Context, theK string) (string, error) {
 	return string(resp.Kvs[0].Value), errGet
 }
 
+// GetVByKRevision fetches value from store based on passed key.
+func (s ETCDStore) GetVByKRevision(ctx context.Context, theK string, revision uint8) (string, error) {
+	resp, errGet := s.TheStore.Get(ctx, theK, clientv3.WithRev(int64(revision)))
+	if errGet != nil {
+		return "", errors.WithMessage(errGet, errorClientSide)
+	}
+	s.theLogger.Debug("GetVByKRevision Result: ", *resp)
+	if resp.Kvs == nil {
+		return "", errorNoValues
+	}
+	return string(resp.Kvs[0].Value), errGet
+}
+
 // GetKVByKPrefix Method fetches KVs per passed prefix.
 func (s ETCDStore) GetKVByKPrefix(ctx context.Context, thePrefix string) ([]KV, error) {
 	resp, errGet := s.TheStore.Get(ctx, thePrefix, clientv3.WithPrefix())

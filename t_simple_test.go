@@ -35,6 +35,11 @@ func TestSetSimple(t *testing.T) {
 	assert.Nil(t, errGet1)
 	assert.Equal(t, testValue1, val1)
 
+	// test read key with revision
+	revVal, errRev := storeClient.GetVByKRevision(context.Background(), testKey1, 20)
+	assert.Nil(t, errRev)
+	assert.Equal(t, testValue1, revVal)
+
 	assert.Nil(t, storeClient.DeleteKVFrom(context.Background(), testKey1))
 
 	// test read key
