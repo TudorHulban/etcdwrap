@@ -1,5 +1,10 @@
 package etcdwrap
 
+/*
+Response in form of:
+{cluster_id:14841639068965178418 member_id:10276657743932975437 revision:14 raft_term:2  [] false}
+*/
+
 import (
 	"context"
 
@@ -13,6 +18,7 @@ func (s ETCDStore) GetVByK(ctx context.Context, theK string) (string, error) {
 	if errGet != nil {
 		return "", errors.WithMessage(errGet, errorClientSide)
 	}
+	s.theLogger.Debug("GetVByK Result: ", *resp)
 	if resp.Kvs == nil {
 		return "", errorNoValues
 	}
