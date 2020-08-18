@@ -61,5 +61,6 @@ https://etcd.io/docs/v2/api/   # v2!!
 https://github.com/etcd-io/etcd/tree/master/etcdctl
 https://godoc.org/github.com/coreos/etcd/clientv3
 https://www.compose.com/articles/utilizing-etcd3-with-go/
+https://github.com/etcd-io/etcd/blob/master/Documentation/learning/data_model.md
 ```
 
